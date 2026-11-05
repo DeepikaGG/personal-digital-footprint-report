@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Digital Footprint Assessment Tool</title>
+<style>
+:root{--bg:#f4f7fa;--card:#fff;--ink:#1b2a3a;--mut:#64748b;--line:#dbe3ea;--pri:#00897b;--onpri:#fff;--low:#43a047;--med:#f2a33a;--high:#e4572e;--crit:#0b1f33;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0b1f33;--card:#13293f;--ink:#e8eef4;--mut:#9fb1c3;--line:#26425c;--pri:#26c6b9;--onpri:#06222a;--crit:#c0392b;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0b1f33;--card:#13293f;--ink:#e8eef4;--mut:#9fb1c3;--line:#26425c;--pri:#26c6b9;--onpri:#06222a;--crit:#c0392b;color-scheme:dark}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+.wrap{max-width:860px;margin:0 auto;padding:16px}
+h1{font-size:22px;margin:4px 0}h2{font-size:18px;margin:0 0 10px}p.s{color:var(--mut);margin:0 0 12px}
+nav{display:flex;gap:6px;overflow-x:auto;padding:4px 0 12px}
+nav button{flex:none;border:1px solid var(--line);background:var(--card);color:var(--ink);padding:8px 12px;border-radius:999px;font:inherit;cursor:pointer}
+nav button.on{background:var(--pri);color:var(--onpri);border-color:var(--pri);font-weight:600}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;margin-bottom:12px}
+label{display:block;font-weight:600;margin:10px 0 4px}
+input[type=text],input[type=url],select,textarea{width:100%;padding:9px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);font:inherit}
+textarea{min-height:110px}
+input[type=range]{width:100%}
+.btn{background:var(--pri);color:var(--onpri);border:0;border-radius:8px;padding:9px 14px;font:inherit;font-weight:600;cursor:pointer}
+.btn.g{background:transparent;color:var(--ink);border:1px solid var(--line)}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}@media(max-width:560px){.row{grid-template-columns:1fr}}
+.pill{display:inline-block;padding:2px 10px;border-radius:999px;color:#fff;font-size:12px;font-weight:700}
+.Low{background:var(--low)}.Medium{background:var(--med);color:#222}.High{background:var(--high)}.Critical{background:var(--crit)}
+.f{border-top:1px solid var(--line);padding:10px 0}.f:first-child{border-top:0}
+.f small{color:var(--mut);word-break:break-all}
+.kpi{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:12px}
+.kpi div{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px;text-align:center}
+.kpi b{display:block;font-size:22px}.bar{height:14px;border-radius:7px;background:var(--line);overflow:hidden;margin:6px 0 10px}
+.bar i{display:block;height:100%}
+.links{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:8px}
+.links div{border:1px solid var(--line);border-radius:10px;padding:8px;display:flex;justify-content:space-between;align-items:center;gap:6px}
+a{color:var(--pri);font-weight:600}.warn{border-left:4px solid var(--med);padding-left:10px;color:var(--mut)}
+</style></head><body><div class="wrap">
+<h1>🔍 Digital Footprint Assessment Tool</h1>
+<p class="s">Passive, public-data assessment of yourself or a consenting person.</p>
+<nav id="nav"></nav><div id="view"></div></div>
+<script>
+var TABS=[["setup","1. Setup"],["log","2. Findings"],["users","3. Usernames"],["redact","4. Redactor"],["dash","5. Dashboard"],["report","6. Report"]];
+var CATS=["Identity","Contact info","Accounts","Breach","Social","Technical","Physical"];
+var SITES=[["GitHub","https://github.com/"],["Reddit","https://www.reddit.com/user/"],["X","https://x.com/"],["Instagram","https://www.instagram.com/"],["TikTok","https://www.tiktok.com/@"],["LinkedIn","https://www.linkedin.com/in/"],["YouTube","https://www.youtube.com/@"],["Medium","https://medium.com/@"],["Pinterest","https://www.pinterest.com/"],["Twitch","https://www.twitch.tv/"],["Telegram","https://t.me/"],["Stack Overflow search","https://stackoverflow.com/users?tab=users&q="]];
+var S={tab:"setup",consent:false,subject:"",seeds:"",f:[],draft:{}};
+try{var raw=localStorage.getItem("pdfa");if(raw)S=Object.assign(S,JSON.parse(raw))}catch(e){}
+function save(){try{localStorage.setItem("pdfa",JSON.stringify(S))}catch(e){}}
+function esc(t){return String(t==null?"":t).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
+function score(f){return f.s*f.d*f.e}
+function rate(n){return n>=60?"Critical":n>=30?"High":n>=12?"Medium":"Low"}
+function go(t){S.tab=t;save();draw()}
+function nav(){document.getElementById("nav").innerHTML=TABS.map(function(t){return '<button class="'+(S.tab==t[0]?"on":"")+'" onclick="go(\''+t[0]+'\')">'+t[1]+'</button>'}).join("")}
+function stats(){var c={Low:0,Medium:0,High:0,Critical:0},tot=0;S.f.forEach(function(f){var n=score(f);c[rate(n)]++;tot+=n});
+ return{c:c,n:S.f.length,idx:S.f.length?Math.round(tot/(S.f.length*125)*100):0}}
+function draw(){nav();var v=document.getElementById("view");v.innerHTML=({setup:vSetup,log:vLog,users:vUsers,redact:vRedact,dash:vDash,report:vReport})[S.tab]();if(S.tab=="redact")doRedact();if(S.tab=="users")links()}
+function vSetup(){return '<div class="card"><h2>Scope and consent</h2><p class="s">Only assess yourself or someone who gave written permission. Use public sources only and never log in to accounts that are not yours.</p>'+
+ '<label><input type="checkbox" '+(S.consent?"checked":"")+' onchange="S.consent=this.checked;save()"> I am assessing myself, or I have written consent</label>'+
+ '<label>Subject label (use initials or an alias)</label><input type="text" value="'+esc(S.subject)+'" oninput="S.subject=this.value;save()" placeholder="e.g. Subject A">'+
+ '<label>Seed data (kept only in this browser; do not paste passwords)</label><textarea oninput="S.seeds=this.value;save()" placeholder="Names, emails, usernames, city, employer, one per line">'+esc(S.seeds)+'</textarea>'+
+ '<p class="s" style="margin-top:10px">Next: search each seed item in Google (in quotes), check emails at haveibeenpwned.com, then log what you find.</p><button class="btn" onclick="go(\'log\')">Start logging findings</button></div>'}
+function vLog(){var d=S.draft;
+ var form='<div class="card"><h2>Add a finding</h2>'+(S.consent?"":'<p class="warn">Tick the consent box in Setup first.</p>')+
+ '<div class="row"><div><label>Category</label><select id="fc">'+CATS.map(function(c){return '<option'+(d.c==c?" selected":"")+'>'+c+'</option>'}).join("")+'</select></div>'+
+ '<div><label>Source URL (where you found it)</label><input type="url" id="fu" value="'+esc(d.u||"")+'" placeholder="https://..."></div></div>'+
+ '<label>What was found (do not paste sensitive values in full)</label><input type="text" id="ft" value="'+esc(d.t||"")+'" placeholder="e.g. Home address on people-search site">'+
+ ["s:Sensitivity","d:Discoverability","e:Exploitability"].map(function(x){var k=x[0];return '<label>'+x.slice(2)+': <span id="v'+k+'">3</span>/5</label><input type="range" min="1" max="5" value="3" id="r'+k+'" oninput="document.getElementById(\'v'+k+'\').textContent=this.value">'}).join("")+
+ '<p style="margin-top:12px"><button class="btn" onclick="addF()">Add finding</button></p></div>';
+ var list='<div class="card"><h2>Findings ('+S.f.length+')</h2>'+(S.f.length?S.f.map(function(f,i){var n=score(f);return '<div class="f"><b>'+esc(f.t)+'</b> <span class="pill '+rate(n)+'">'+rate(n)+' '+n+'</span><br><small>'+esc(f.c)+' | '+esc(f.dt)+' | '+esc(f.u||"no URL")+'</small> <button class="btn g" onclick="delF('+i+')">Remove</button></div>'}).join(""):'<p class="s">No findings yet.</p>')+'</div>';
+ return form+list}
+function addF(){if(!S.consent){alert("Please confirm consent in Setup first.");return}
+ var t=document.getElementById("ft").value.trim();if(!t){alert("Describe the finding.");return}
+ S.f.push({c:document.getElementById("fc").value,u:document.getElementById("fu").value.trim(),t:t,s:+document.getElementById("rs").value,d:+document.getElementById("rd").value,e:+document.getElementById("re").value,dt:new Date().toISOString().slice(0,10)});
+ S.draft={};save();draw()}
+function delF(i){S.f.splice(i,1);save();draw()}
+function vUsers(){var u=(S.uname||"");return '<div class="card"><h2>Username check</h2><p class="s">Builds public profile links only. Nothing is fetched automatically: you open each link yourself and note what is publicly visible.</p><input type="text" id="un" value="'+esc(u)+'" placeholder="username" oninput="S.uname=this.value;save();links()"><div class="links" id="lk" style="margin-top:12px"></div></div>'}
+function links(){var u=(document.getElementById("un")||{}).value||"",el=document.getElementById("lk");if(!el)return;u=encodeURIComponent(u.trim());
+ el.innerHTML=u?SITES.map(function(s,i){return '<div><a href="'+s[1]+u+'" target="_blank" rel="noopener noreferrer">'+esc(s[0])+'</a><button class="btn g" onclick="fromSite('+i+')">Log</button></div>'}).join(""):'<p class="s">Enter a username above.</p>'}
+function fromSite(i){S.draft={c:"Accounts",u:SITES[i][1]+encodeURIComponent(S.uname||""),t:"Public profile on "+SITES[i][0]};go("log")}
+function vRedact(){return '<div class="card"><h2>Evidence redactor</h2><p class="s">Paste text from a screenshot or notes. Sensitive items are masked before you store or share it. Processing happens in your browser.</p><textarea id="ri" oninput="doRedact()" placeholder="Paste text here">'+esc(S.rin||"")+'</textarea><label>Extra words to hide (comma separated, e.g. your name, city)</label><input type="text" id="rw" value="'+esc(S.rw||"")+'" oninput="doRedact()"><label>Redacted output</label><textarea id="ro" readonly></textarea><p><button class="btn" onclick="cp(\'ro\')">Copy</button></p></div>'}
+function doRedact(){var i=document.getElementById("ri"),o=document.getElementById("ro");if(!i||!o)return;S.rin=i.value;S.rw=document.getElementById("rw").value;save();var t=i.value;
+ t=t.replace(/[\w.+-]+@[\w-]+\.[\w.-]+/g,"[EMAIL]").replace(/\b(?:\d[ -]?){13,16}\b/g,"[CARD]").replace(/\b\d{1,3}(?:\.\d{1,3}){3}\b/g,"[IP]").replace(/(\+?\d[\d\s().-]{7,}\d)/g,"[PHONE]").replace(/\b\d{1,5}\s+[A-Za-z]+(?:\s[A-Za-z]+)*\s(?:Street|St|Road|Rd|Avenue|Ave|Lane|Ln|Drive|Dr|Boulevard|Blvd)\b/gi,"[ADDRESS]");
+ S.rw.split(",").map(function(w){return w.trim()}).filter(Boolean).forEach(function(w){t=t.replace(new RegExp(w.replace(/[.*+?^${}()|[\]\\]/g,"\\$&"),"gi"),"[HIDDEN]")});o.value=t}
+function vDash(){var k=stats(),lv=["Critical","High","Medium","Low"],col={Critical:"var(--crit)",High:"var(--high)",Medium:"var(--med)",Low:"var(--low)"};
+ var top=S.f.slice().sort(function(a,b){return score(b)-score(a)}).slice(0,5);
+ return '<div class="kpi"><div><b>'+k.n+'</b>Findings</div><div><b>'+k.idx+'</b>Exposure /100</div><div><b>'+k.c.Critical+'</b>Critical</div><div><b>'+k.c.High+'</b>High</div></div>'+
+ '<div class="card"><h2>By rating</h2>'+lv.map(function(l){var p=k.n?k.c[l]/k.n*100:0;return '<div>'+l+' ('+k.c[l]+')</div><div class="bar"><i style="width:'+p+'%;background:'+col[l]+'"></i></div>'}).join("")+'</div>'+
+ '<div class="card"><h2>Top risks to fix first</h2>'+(top.length?top.map(function(f){var n=score(f);return '<div class="f">'+esc(f.t)+' <span class="pill '+rate(n)+'">'+n+'</span></div>'}).join(""):'<p class="s">Add findings to see priorities.</p>')+'</div>'+
+ '<p class="s">Risk = Sensitivity × Discoverability × Exploitability (max 125). Critical 60+, High 30–59, Medium 12–29, Low under 12. Exposure index = average risk as a percentage of 125.</p>'}
+var FIX={Breach:"Change the password everywhere it was used; enable an authenticator app or passkey.",Contact:"Remove or limit public contact details; use an alias email.",Accounts:"Make the profile private or delete unused accounts.",Social:"Tighten privacy settings; remove old posts and location tags.",Physical:"Submit opt-outs; remove geotagged photos.",Identity:"Request removal from people-search sites.",Technical:"Remove exposed services or secrets; rotate keys."};
+function vReport(){var k=stats(),L=["# Digital Footprint Assessment Report","","Subject: "+(S.subject||"Subject A"),"Date: "+new Date().toISOString().slice(0,10),"Method: passive OSINT, public sources only, consent confirmed: "+(S.consent?"yes":"no"),"","## Summary","Findings: "+k.n+" | Critical: "+k.c.Critical+" | High: "+k.c.High+" | Medium: "+k.c.Medium+" | Low: "+k.c.Low,"Exposure index: "+k.idx+"/100","","## Findings (highest risk first)"];
+ S.f.slice().sort(function(a,b){return score(b)-score(a)}).forEach(function(f,i){var n=score(f);L.push((i+1)+". ["+rate(n)+" "+n+"] "+f.c+": "+f.t+" (S"+f.s+" D"+f.d+" E"+f.e+")","   Source: "+(f.u||"n/a")+" | Found: "+f.dt,"   Fix: "+(FIX[f.c.split(" ")[0]]||"Reduce public visibility."))});
+ L.push("","## 30/60/90 plan","30 days: fix Critical and High items (passwords, 2FA, opt-outs).","60 days: tighten privacy settings and remove old accounts.","90 days: re-scan and compare the exposure index.");
+ return '<div class="card"><h2>Report</h2><p class="s">Copy this into your document. Redact sensitive values before sharing.</p><textarea id="rp" style="min-height:360px" readonly>'+esc(L.join("\n"))+'</textarea><p><button class="btn" onclick="cp(\'rp\')">Copy report</button> <button class="btn g" onclick="if(confirm(\'Clear all data?\')){S={tab:\'setup\',consent:false,subject:\'\',seeds:\'\',f:[],draft:{}};save();draw()}">Clear all data</button></p></div>'}
+function cp(id){var e=document.getElementById(id);e.select();try{navigator.clipboard.writeText(e.value)}catch(x){document.execCommand("copy")}}
+draw();
+</script></body></html>

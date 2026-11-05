@@ -1,0 +1,60 @@
+{
+  "subject": "Subject A (fictional: Krishna Rao)",
+  "consent": true,
+  "findings": [
+    {
+      "category": "Breach",
+      "description": "Test email found in a data breach",
+      "source_url": "https://breachcheck.example/result",
+      "sensitivity": 4,
+      "discoverability": 5,
+      "exploitability": 5,
+      "date": "2026-11-01"
+    },
+    {
+      "category": "Contact info",
+      "description": "Home address on a people-search site",
+      "source_url": "https://peoplefind.example/krishna-rao",
+      "sensitivity": 5,
+      "discoverability": 4,
+      "exploitability": 3,
+      "date": "2026-11-01"
+    },
+    {
+      "category": "Social",
+      "description": "Employer and job title on a professional profile",
+      "source_url": "https://linkedin.example/in/krishna-rao",
+      "sensitivity": 2,
+      "discoverability": 5,
+      "exploitability": 4,
+      "date": "2026-11-01"
+    },
+    {
+      "category": "Accounts",
+      "description": "Username visible on a public forum",
+      "source_url": "https://forum.example.com/u/krishna_sec22",
+      "sensitivity": 2,
+      "discoverability": 4,
+      "exploitability": 2,
+      "date": "2026-11-01"
+    },
+    {
+      "category": "Social",
+      "description": "Public photo with a location tag",
+      "source_url": "https://social.example/krishna/photo1",
+      "sensitivity": 3,
+      "discoverability": 4,
+      "exploitability": 3,
+      "date": "2026-11-01"
+    },
+    {
+      "category": "Technical",
+      "description": "Old code repo with commit email",
+      "source_url": "https://code.example/krishna_sec22/project",
+      "sensitivity": 3,
+      "discoverability": 3,
+      "exploitability": 3,
+      "date": "2026-11-01"
+    }
+  ]
+}
