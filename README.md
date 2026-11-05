@@ -60,7 +60,7 @@ Add your screenshots to the `docs/` folder and link them here (use fictional dat
 
 ## Author
 
-[Deepika.G.G], [East point college of higher education], Internship project, 2026
+Deepika.G.G, East point college of higher education, Internship project, 2026
 
 ## License
 
