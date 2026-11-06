@@ -55,22 +55,28 @@ Sample result: exposure fell from **37/100** to **12/100** after fixes.
 ```
 
 ## Screenshots
-### Project Screenshots
 
-![Screenshot 1](docs/Screenshot%202026-11-06%20133535.png)
 
-![Screenshot 2](docs/Screenshot%202026-11-06%20134342.png)
+### Screenshot 1
+![Screenshot 1](docs/Screenshot%202026-11-06%20185315.png)
 
-![Screenshot 3](docs/Screenshot%202026-11-06%20135531.png)
+### Screenshot 2
+![Screenshot 2](docs/Screenshot%202026-11-06%20185543.png)
 
-![Screenshot 4](docs/Screenshot%202026-11-06%20135631.png)
+### Screenshot 3
+![Screenshot 3](docs/Screenshot%202026-11-06%20185627.png)
 
-![Screenshot 5](docs/Screenshot%202026-11-06%20140133.png)
+### Screenshot 4
+![Screenshot 4](docs/Screenshot%202026-11-06%20185659.png)
 
-![Screenshot 6](docs/Screenshot%202026-11-06%20140201.png)
+### Screenshot 5
+![Screenshot 5](docs/Screenshot%202026-11-06%20185735.png)
 
-![Screenshot 7](docs/Screenshot%202026-11-06%20140303.png)
+### Screenshot 6
+![Screenshot 6](docs/Screenshot%202026-11-06%20185805.png)
 
+### Screenshot 7
+![Screenshot 7](docs/Screenshot%202026-11-06%20185849.png)
 
 ## Author
 
