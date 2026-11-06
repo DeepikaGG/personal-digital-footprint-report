@@ -74,7 +74,7 @@ Sample result: exposure fell from **37/100** to **12/100** after fixes.
 
 ## Author
 
-Deepika.G.G, East point college of higher education, Internship project, 2026
+BCA student, Internship project, 2026
 
 ## License
 
