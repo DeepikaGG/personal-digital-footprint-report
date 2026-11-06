@@ -1,17 +1,43 @@
-# Methodology
+Methodology
 
-1. **Scope and consent:** assess only yourself or a person who gave written consent.
-2. **Seed data:** list names, emails, usernames and other identifiers.
-3. **Passive discovery:** search public sources only (search engines, breach-check sites, public profiles).
-4. **Record:** log each finding with its source URL and date.
-5. **Score:** Risk = Sensitivity x Discoverability x Exploitability (each 1-5, maximum 125).
-6. **Remediate and re-check:** fix the highest risks, then compare before and after.
+1. Scope and Consent
 
-| Rating | Risk score |
-|---|---|
-| Critical | 60 and above |
-| High | 30 to 59 |
-| Medium | 12 to 29 |
-| Low | under 12 |
+The project assesses the digital footprint of the user or a person who has given informed consent. Only publicly available information is considered.
 
-Exposure index = total risk / (number of findings x 125) x 100.
+2. Seed Data
+
+Enter sample identifiers such as names, email addresses, usernames and other relevant details. Fictional data is used for testing and demonstration.
+
+3. Passive Discovery
+
+Review publicly available sources, such as search engine results, public profiles and authorized breach-check services. The project does not access private accounts or automatically collect information from websites.
+
+4. Record Findings
+
+Record each finding with its category, source URL, date and relevant risk-rating values.
+
+5. Risk Assessment
+
+Each finding is evaluated using the following formula:
+
+Risk = Sensitivity × Discoverability × Exploitability
+
+Each factor is rated from 1 to 5. The maximum risk score is 125.
+
+Risk Rating
+
+Rating| Risk Score
+Critical| 60 and above
+High| 30–59
+Medium| 12–29
+Low| Below 12
+
+6. Remediation and Re-assessment
+
+Identify and address the highest-risk findings. Assess the digital footprint again and compare the before-and-after results to measure improvement.
+
+7. Exposure Index
+
+Exposure Index = (Total Risk / (Number of Findings × 125)) × 100
+
+The exposure index represents the overall risk level as a percentage. A lower score indicates lower assessed exposure.
