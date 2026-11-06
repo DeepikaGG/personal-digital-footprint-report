@@ -56,7 +56,6 @@ Sample result: exposure fell from **37/100** to **12/100** after fixes.
 
 ## Screenshots
 
-Add your screenshots to the `docs/` folder and link them here (use fictional data only).
 
 ## Author
 
