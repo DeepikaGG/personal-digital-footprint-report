@@ -55,28 +55,28 @@ Sample result: exposure fell from **37/100** to **12/100** after fixes.
 ```
 
 ## Screenshots
+## Screenshots
 
+### Screenshot 1 – Setup
+![Screenshot 1](docs/Screenshot%202026-11-08%20133243.png)
 
-### Screenshot 1
-![Screenshot 1](docs/Screenshot%202026-11-06%20185315.png)
+### Screenshot 2 – Findings
+![Screenshot 2](docs/Screenshot%202026-11-08%20133303.png)
 
-### Screenshot 2
-![Screenshot 2](docs/Screenshot%202026-11-06%20185543.png)
+### Screenshot 3 – Usernames
+![Screenshot 3](docs/Screenshot%202026-11-08%20133346.png)
 
-### Screenshot 3 – Updated Report
-![Screenshot 3](docs/Screenshot%202026-11-08%20123701.png)
+### Screenshot 4 – Redactor
+![Screenshot 4](docs/Screenshot%202026-11-08%20133445.png)
 
-### Screenshot 4 – Final Report
-![Screenshot 4](docs/Screenshot%202026-11-08%20123844.png)
+### Screenshot 5 – Dashboard
+![Screenshot 5](docs/Screenshot%202026-11-08%20133518.png)
 
-### Screenshot 5
-![Screenshot 5](docs/Screenshot%202026-11-06%20185735.png)
+### Screenshot 6 – Report
+![Screenshot 6](docs/Screenshot%202026-11-08%20133549.png)
 
-### Screenshot 6
-![Screenshot 6](docs/Screenshot%202026-11-06%20185805.png)
-
-### Screenshot 7
-![Screenshot 7](docs/Screenshot%202026-11-06%20185849.png)
+### Screenshot 7 – Final Report
+![Screenshot 7](docs/Screenshot%202026-11-08%20133616.png)
 
 ## Author
 
