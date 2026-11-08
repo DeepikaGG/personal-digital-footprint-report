@@ -63,11 +63,11 @@ Sample result: exposure fell from **37/100** to **12/100** after fixes.
 ### Screenshot 2
 ![Screenshot 2](docs/Screenshot%202026-11-06%20185543.png)
 
-### Screenshot 3
-![Screenshot 3](docs/Screenshot%202026-11-06%20185627.png)
+### Screenshot 3 – Updated Report
+![Screenshot 3](docs/FIRST_NEW_FILENAME.png)
 
-### Screenshot 4
-![Screenshot 4](docs/Screenshot%202026-11-06%20185659.png)
+### Screenshot 4 – Final Report
+![Screenshot 4](docs/SECOND_NEW_FILENAME.png)
 
 ### Screenshot 5
 ![Screenshot 5](docs/Screenshot%202026-11-06%20185735.png)
